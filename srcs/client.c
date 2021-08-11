@@ -6,7 +6,15 @@
 /*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 11:17:20 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/11 11:17:21 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/11 19:30:26 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/minitalk.h"
+#include <stdio.h>
+
+int main(void)
+{
+	printf("test");
+	return (0);
+}

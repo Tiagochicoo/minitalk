@@ -6,7 +6,7 @@
 #    By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 10:19:16 by tpereira          #+#    #+#              #
-#    Updated: 2021/08/11 12:00:53 by tpereira         ###   ########.fr        #
+#    Updated: 2021/08/11 19:36:39 by tpereira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,45 +15,25 @@ SERVER 		= server
 CLIENT		= client
 CC 			= gcc
 CFLAGS 		= -Wall -Wextra -Werror
-HEADER		= ./includes/minitalk.h
-SERVER_SRCS = $(wildcard ./srcs/*server.c)
-SERVER_OBJS = $(SERVER_SRCS:.c=.o)
-CLIENT_SRCS = $(wildcard ./srcs/*client.c)
-CLIENT_OBJS = $(CLIENT_SRCS:.c=.o)
-#*************************************LIBFT*************************************#
-LIB_SRCS	= mv $(LIB_NAME)/libft.a ./$(NAME)
-LIB_OBJS	= $(LIB_SRCS:.c=.o)
-LIB_NAME	= libft
-LIB_HEADER	= -I libft/includes
-INC_PATH 	= includes $(LIB_HEADER)
-SO 			= libft.so
 
-.c.o:
-	$(CC) -g $(CFLAGS) -c $^ -o $(<:.c=.o) -I $(INC_PATH)
+all :
+	@make -s -C libft
+	@gcc -Wall -Wextra -Werror ./srcs/server.c libft/libft.a -o $(SERVER)
+	@gcc -Wall -Wextra -Werror ./srcs/client.c libft/libft.a -o $(CLIENT)
+	@printf "\e[38;5;46m✅      Compiled Libft	    ✅ \e[0m\n"
+	@printf "\e[38;5;46m✅ Client build successfull ✅ \e[0m\n"
+	@printf "\e[38;5;46m✅ Server build successfull ✅ \e[0m\n"
 
-all:	$(LIB_NAME) $(SERVER) $(CLIENT)
+clean :
+	@make -s clean -C libft 
+	@rm -rf ./srcs/client.o ./srcs/server.o
+	@printf "\e[31;5;200m🚮️ 	Clean complete      🚮️\e[0m\n"
 
-$(SERVER):	$(SERVER_OBJS) $(HEADER)
-	make -C $(LIB_NAME)
-	mv $(LIB_NAME)/libft.a ./$(SERVER)
-	ar -rcs $(SERVER) $(SERVER_OBJS)
-	@printf "\e[38;5;46m./$@ Server build successfull ✅ \e[0m\n"
+fclean : clean
+	@make -s fclean -C libft
+	@rm -rf $(SERVER) $(CLIENT)
 
-$(CLIENT):	$(CLIENT_OBJS) $(HEADER)
-	make -C $(LIB_NAME)
-	mv $(LIB_NAME)/libft.a ./$(CLIENT)
-	ar -rcs $(CLIENT) $(CLIENT_OBJS)
-	@printf "\e[38;5;46m./$@ Client build successfull ✅ \e[0m\n"
-
-clean:
-	make clean -C $(LIB_NAME)/
-	rm -f $(SERVER_OBJS) $(CLIENT_OBJS)
-	@printf "\e[38;5;200m❌ Deleted objects ❌\e[0m\n"
-fclean:     clean
-	rm -f $(CLIENT) $(SERVER)
-re:         fclean all
-bonus:		all
-so:         $(SERVER_OBJS) $(CLIENT_OBJS)
-	gcc -shared -o $(SO) $(SERVER_OBJS) $(CLIENT_OBJS)
+re :	fclean all
+bonus:	all
 
 .PHONY: bonus re fclean clean all
