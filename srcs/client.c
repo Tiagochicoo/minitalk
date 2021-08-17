@@ -6,7 +6,7 @@
 /*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 11:17:20 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/17 17:02:24 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/17 18:21:18 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	usage(void)
 {
-	write(1, "usage: ./client [server-pid] [message]\n", 39);
+	ft_putstr_fd("usage: ./client [server-pid] [message]\n", 1);
 	exit(1);
 }
 
 void	success(int sig)
 {
 	(void)sig;
-	write(1, "Message received by server.\n", 28);
+	ft_putstr_fd("Message received by server.\n", 1);
 }
 
 void	error(char *str)
@@ -29,7 +29,7 @@ void	error(char *str)
 	if (str)
 		free(str);
 	ft_putstr_fd("Unexpected error",1);
-	exit(0);
+	exit(EXIT_FAILURE);
 }
 
 int	send_null(int pid, char *str)
@@ -37,7 +37,6 @@ int	send_null(int pid, char *str)
 	static int	i;
 
 	i = 0;
-
 	if (i++ != 8)
 	{
 		if (kill(pid, SIGUSR1) == -1)
@@ -88,19 +87,24 @@ void	handle_sigusr(int sig)
 		end = send_sig(0, 0);
 	else if (sig == SIGUSR2)
 	{
-		ft_putstr_fd("Unexpected error", 1);
-		exit(1);
+		ft_putstr_fd("Unexpected error", 2);
+		exit(EXIT_FAILURE);
 	}
 	if (end)
 	{
 		ft_putstr_fd("Message sent", 1);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	if (argc != 3)
+	int	isdigit;
+	int	pid;
+	
+	pid = ft_atoi(argv[1]);
+	isdigit = ft_isdigit(pid);
+	if (argc != 3 || isdigit == 1)
 		usage();
 	signal(SIGUSR1, handle_sigusr);
 	signal(SIGUSR2, handle_sigusr);
