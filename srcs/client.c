@@ -6,7 +6,7 @@
 /*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 11:17:20 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/17 16:43:44 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/17 17:02:24 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	send_sig(char *str, int pid)
 	bits = -1;
 	if (str)
 		string = ft_strdup(str);
-	else
+	if (!string)
 		error(0);
 	if (pid)
 		s_pid = pid;
