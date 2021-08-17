@@ -1,0 +1,11 @@
+{
+	"files.associations": {
+		"signal.h": "c",
+		"libft.h": "c",
+		"system_error": "c",
+		"time.h": "c",
+		"minitalk.h": "c",
+		"stdbool.h": "c"
+	},
+	"C_Cpp.errorSquiggles": "Enabled"
+}
