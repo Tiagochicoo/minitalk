@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_isnumber.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpereira <tpereira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/11 10:35:47 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/19 19:22:52 by tpereira         ###   ########.fr       */
+/*   Created: 2021/02/17 19:12:31 by tpereira          #+#    #+#             */
+/*   Updated: 2021/08/19 19:35:08 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
+#include "libft.h"
 
-#ifndef MINITALK_H
-# define MINITALK_H
+int	ft_isnumber(int c)
+{
+	char	*str;
+	int		isnumber;
 
-# include <stdbool.h>
-# include <signal.h>
-# include <zconf.h>
-
-#endif
+	isnumber = 0;
+	str = ft_itoa(c);
+	while (*str)
+	{
+		if (*str >= '0' && *str <= '9')
+			isnumber = 1;
+		else
+			return (0);
+		str++;
+	}	
+	return (isnumber);
+}

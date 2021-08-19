@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
+/*   By: tpereira <tpereira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 11:17:20 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/17 18:21:18 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/19 19:36:56 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,19 @@ void	handle_sigusr(int sig)
 
 int	main(int argc, char **argv)
 {
-	int	isdigit;
+	int	isnumber;
 	int	pid;
 	
+	//get pid and convert from ascii to integer
 	pid = ft_atoi(argv[1]);
-	isdigit = ft_isdigit(pid);
-	if (argc != 3 || isdigit == 1)
+	// check if the pid argument is a digit
+	isnumber = ft_isnumber(pid);
+	if (argc != 3 || isnumber == 0)
 		usage();
+	// if you get a signal to the server, present a message in client
 	signal(SIGUSR1, handle_sigusr);
 	signal(SIGUSR2, handle_sigusr);
+	// send signal to server
 	send_sig(argv[2], ft_atoi(argv[1]));
 	return (0);
 }
