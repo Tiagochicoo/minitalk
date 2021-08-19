@@ -8,7 +8,7 @@
             "name": "42MAC lldb",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/a.out",
+            "program": "${workspaceFolder}/server",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${fileDirname}",

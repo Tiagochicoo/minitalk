@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
+/*   By: tpereira <tpereira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 14:45:52 by tpereira          #+#    #+#             */
-/*   Updated: 2021/07/05 18:08:56 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/19 20:42:13 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,8 @@ char	*ft_strnew(size_t size)
 
 	if (size == 0)
 	{
-		str = (char *)malloc(sizeof(*str) * (1));
-		if (str)
-		{
-			ft_memset(str, '\0', (1));
-			return (str);
-		}
-	}
-	else if (size)
-	{
-		str = (char *)malloc(sizeof(*str) * (size + 1));
-		if (str)
-		{
-			ft_memset(str, '\0', (size + 1));
-			return (str);
-		}
+		str = (char *)ft_calloc(size, sizeof(*str) * (1));
+		return (str);
 	}
 	return (NULL);
 }

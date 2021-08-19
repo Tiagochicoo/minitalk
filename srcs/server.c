@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
+/*   By: tpereira <tpereira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 11:17:17 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/19 17:51:00 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/19 21:50:11 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	error(int pid, char *str)
 		free(str);
 	ft_putstr_fd("Unexpected error",2);
 	kill(pid, SIGUSR2);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 char*	print(char *str)
@@ -32,48 +32,46 @@ void	handle_sigusr(int sig, siginfo_t *info, void *context)
 {
 	static char	c;
 	static int	bits;
-	static int	pid;
 	static char	*str;
 
+	c = 0xFF;
+	bits = 0;
+	*str = 0;
 	(void)context;
-	if (info->si_pid)
-		pid = info->si_pid;
 	if (sig == SIGUSR1)
 		c ^= 0x80 >> bits;
-	if (sig == SIGUSR2)
+	else if (sig == SIGUSR2)
 		c |= 0x80 >> bits;
 	if (++bits == 8)
 	{
 		if (c)
-			str = ft_strjoin(str, ft_chrtostr(c));
+			str = ft_addchartostr(str, c);
 		else
 			str = print(str);
 		bits = 0;
 		c = 0xFF;
 	}
-	if (kill(pid, SIGUSR1) == -1)
-		error(pid, str);
+	if (kill(info->si_pid, SIGUSR1) == -1)
+		error(info->si_pid, str);
 }
 
 int	main(void)
 {
-	struct sigaction	sa;
+	struct sigaction	sa_signal;
 	sigset_t			block_mask;
 
 	sigemptyset(&block_mask);
 	sigaddset(&block_mask, SIGINT);
 	sigaddset(&block_mask, SIGQUIT);
-	sa.sa_handler = 0;
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_mask = block_mask;
-	sa.sa_sigaction = handle_sigusr;
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
+	sa_signal.sa_handler = 0;
+	sa_signal.sa_flags = SA_SIGINFO;
+	sa_signal.sa_mask = block_mask;
+	sa_signal.sa_sigaction = handle_sigusr;
+	sigaction(SIGUSR1, &sa_signal, NULL);
+	sigaction(SIGUSR2, &sa_signal, NULL);
 	ft_putstr_fd("PID: ", 1);
 	ft_putnbr_fd(getpid(), 1);
 	ft_putstr_fd("\n", 1);
-	while (true)
+	while (1)
 		pause();
-	
-	return (0);
 }
