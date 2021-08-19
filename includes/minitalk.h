@@ -6,7 +6,7 @@
 /*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 10:35:47 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/17 18:55:10 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/19 17:50:55 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 #ifndef MINITALK_H
 # define MINITALK_H
-//# define __i386__
+# ifndef __USE_POSIX
+# define __USE_POSIX
+# define __USE_POSIX199309
+# endif
 
 # include <stdbool.h>
 # include <signal.h>

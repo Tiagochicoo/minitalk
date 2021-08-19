@@ -6,7 +6,7 @@
 /*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 11:17:17 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/17 18:58:41 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/19 17:51:00 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(void)
 	sa.sa_mask = block_mask;
 	sa.sa_sigaction = handle_sigusr;
 	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);	
+	sigaction(SIGUSR2, &sa, NULL);
 	ft_putstr_fd("PID: ", 1);
 	ft_putnbr_fd(getpid(), 1);
 	ft_putstr_fd("\n", 1);
