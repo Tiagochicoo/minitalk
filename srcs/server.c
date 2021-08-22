@@ -6,7 +6,7 @@
 /*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 11:17:17 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/22 17:36:16 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/22 18:06:16 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	error(int pid, char *str)
 	exit(EXIT_FAILURE);
 }
 
-char	*print_str(char *string)
+char	*print_string(char *string)
 {
 	string = ft_addchartostr(string, '\n');
 	ft_putstr_fd(string, 1);
@@ -33,9 +33,12 @@ void	handle_sigusr(int sig, siginfo_t *info, void *context)
 {
 	static char	c = 0xFF;
 	static int	bits = 0;
+	static int	pid = 0;
 	static char	*string = 0;
 
 	(void)context;
+	if (info->si_pid)
+		pid = info->si_pid;
 	if (sig == SIGUSR1)
 		c ^= 0x80 >> bits;
 	else if (sig == SIGUSR2)
@@ -45,12 +48,12 @@ void	handle_sigusr(int sig, siginfo_t *info, void *context)
 		if (c)
 			string = ft_addchartostr(string, c);
 		else
-			string = print_str(string);
+			string = print_string(string);
 		bits = 0;
 		c = 0xFF;
 	}
-	if (kill(info->si_pid, SIGUSR1) == -1)
-		error(info->si_pid, string);
+	if (kill(pid, SIGUSR1) == -1)
+		error(pid, string);
 }
 
 int	main(void)
