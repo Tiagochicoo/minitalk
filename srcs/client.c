@@ -6,7 +6,7 @@
 /*   By: tpereira <tpereira@42Lisboa.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 11:17:20 by tpereira          #+#    #+#             */
-/*   Updated: 2021/08/22 18:11:34 by tpereira         ###   ########.fr       */
+/*   Updated: 2021/08/22 18:31:13 by tpereira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,16 @@ int	send_sig(int pid, char *str)
 	return (1);
 }
 
-void	handle_sigusr(int signum)
+void	handle_sigusr(int sig)
 {
 	int	end;
 
 	end = 0;
-	if (signum == SIGUSR1)
+	if (sig == SIGUSR1)
 		end = send_sig(0, 0);
-	else if (signum == SIGUSR2)
+	else if (sig == SIGUSR2)
 	{
-		ft_putstr_fd("Unexpected error in server\n", 2);
+		ft_putstr_fd("Unexpected server error!\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	if (end)
@@ -85,7 +85,7 @@ int	main(int argc, char **argv)
 {
 	if (argc != 3 || !ft_isnumber(argv[1]))
 	{
-		ft_putstr_fd("usage: ./client [server-pid] [message]\n", 2);
+		ft_putstr_fd("usage: ./client [server-pid] [string]\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	signal(SIGUSR1, handle_sigusr);
